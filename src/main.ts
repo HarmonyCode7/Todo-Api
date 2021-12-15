@@ -1,11 +1,12 @@
 import express, {Application, Request, Response} from 'express';
 import { Todo } from './entity/todo';
 import { TodoService } from './todo-service';
-
+import cors from 'cors';
 const app = express();
 const port = 4500;
 const todoService = new TodoService();
 
+app.use(cors());
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
@@ -28,12 +29,12 @@ function testTodo(): Todo {
 
 app.post('/api/todos', async (req: Request, res: Response) => {
     console.log('Adding new todo');
-    let todo = testTodo()
+    let todo = new Todo();
 
-    // todo.title = req.body.title;
-    // todo.category = req.body.category ? req.body.category : null;
-    // todo.start = new Date(req.body.start);
-    // todo.end = new Date(req.body.end);
+    todo.title = req.body.title;
+    todo.category = req.body.category ? req.body.category : null;
+    todo.start = new Date(req.body.start);
+    todo.end = new Date(req.body.end);
 
     try
     {
